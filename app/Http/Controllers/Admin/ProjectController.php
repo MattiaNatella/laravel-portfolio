@@ -43,7 +43,9 @@ class ProjectController extends Controller
 
         $newProject->save();
 
-        return redirect()->route('projects.show', $newProject);
+        return redirect()->route('projects.show', $newProject)
+            ->with('message', 'Progetto inserito con successo!')
+            ->with('message_type', 'info');
 
     }
 
@@ -78,15 +80,20 @@ class ProjectController extends Controller
         $project->update();
 
         return redirect()->route('projects.show', compact('project'))
-            ->with('success', 'Progetto modificato con successo!');
+            ->with('message', 'Progetto modificato con successo!')
+            ->with('message_type', 'warning');
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route('projects.index')
+            ->with('message', 'Record eliminato con successo')
+            ->with('message_type', 'danger');
     }
 }
