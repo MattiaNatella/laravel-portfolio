@@ -5,19 +5,38 @@
 
 @section("content")
 
-    <div class="container">
 
-        <h1>Ciao sono la pagina dove visualizzeremo la lista dei componenti!</h1>
-        @foreach ($projects as $project)
 
-                <div class="border border-1 rounded-1">
-                    <h2>{{ $project->name }}</h2>
-                    <h2>{{ $project->customer}}</h2>
-                    <h2>{{ $project->start_date }} {{ $project->end_date }}</h2>
-                    <h2>{{ $project->summary }}</h2>
-                </div>
+    <a href="{{ route('projects.create') }}">
+        <button class="btn btn-primary border-1 border-dark my-3">Aggiungi progetto</button>
+    </a>
 
-            </div>
-        @endforeach
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Customer</th>
+                <th>Start Date</th>
+                <th>Summary</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach ($projects as $project)
+                <tr>
+                    <td>{{ $project->name }}</td>
+                    <td>{{ $project->customer }}</td>
+                    <td>{{ $project->start_date }}</td>
+                    <td>{{ $project->summary }}</td>
+                    <td>Visualizza</td>
+                    <td>Modifica</td>
+                    <td>Elimina</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
 @endsection
