@@ -30,7 +30,21 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        // dd($data);
+        //creo una nuova instanza nella tabella Projects
+
+        $newProject = new Project();
+
+        $newProject->name = $data['name'];
+        $newProject->customer = $data['customer'];
+        $newProject->start_date = $data['start_date'];
+        $newProject->summary = $data['summary'];
+
+        $newProject->save();
+
+        return redirect()->route('projects.show', $newProject);
+
     }
 
     /**
@@ -38,7 +52,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('projects.show', compact('project'));
     }
 
     /**
