@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="card">
-        <h5 class="card-header">{{ $project->name }} - {{ $project->start_date }}</h5>
+        <h5 class="card-header">{{ $project->name }} / {{ $project->start_date }}</h5>
         <div class="card-body">
             <h5 class="card-title">{{ $project->customer }}</h5>
             <p class="card-text">{{ $project->summary }}</p>

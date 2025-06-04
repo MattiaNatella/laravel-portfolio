@@ -31,9 +31,13 @@
                     <td>{{ $project->customer }}</td>
                     <td>{{ $project->start_date }}</td>
                     <td>{{ $project->summary }}</td>
-                    <td>Visualizza</td>
-                    <td>Modifica</td>
-                    <td>Elimina</td>
+                    <td>
+                        <a href="{{ route('projects.show', $project) }}"><button class="btn btn-primary">Visualizza</button></a>
+                    </td>
+                    <td> <a href="{{ route('projects.edit', $project) }}"><button class="btn btn-warning">Modifica</button></a>
+                    </td>
+                    <td> <a href="{{ route('projects.show', $project) }}"><button class="btn btn-danger">Elimina</button></a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

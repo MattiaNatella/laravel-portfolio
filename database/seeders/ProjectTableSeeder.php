@@ -5,21 +5,30 @@ namespace Database\Seeders;
 use App\Models\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
+
+
 
 class ProjectTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(Faker $faker): void
     {
-        $newProject = new Project();
+        for ($i = 0; $i <= 5; $i++) {
 
-        $newProject->name = 'Portfolio';
-        $newProject->customer = 'Mattia';
-        $newProject->start_date = '2025-05-29';
-        $newProject->summary = "Creazione del back-office del mio portfolio, sfruttando il framework Laravel, i model, le migrations, i seeders, i controller, le rotte e l'auth";
+            $newProject = new Project();
 
-        $newProject->save();
+            $newProject->name = $faker->word();
+            $newProject->customer = $faker->company();
+            $newProject->start_date = $faker->date();
+            $newProject->summary = $faker->paragraph(3);
+            $newProject->type = $faker->numberBetween(1, 5);
+
+
+            $newProject->save();
+        }
+
     }
 }
