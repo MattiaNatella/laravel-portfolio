@@ -53,16 +53,55 @@
         </tbody>
     </table>
 
-    <div class="tipologie my-5 p-3 border border-3 border-primary rounded-2">
-        <h3><strong>Tipologie Attuali:</strong></h3>
-        <ul class="d-flex list-unstyled my-3">
+    <div class="tipologie my-5 p-3 border border-3 border-primary rounded-2 d-flex flex-column">
+        <h3 class="text-center"><strong>Tipologie Attuali:</strong></h3>
+        <ul class="list-unstyled my-3">
             @foreach ($types as $type)
-                <li class="pe-2 border border-danger rounded p-1 me-1">{{ $type->name }}</li>
+                <li class="pe-2 p-1 border border-danger rounded my-2 me-1"><strong>{{ $type->name }} -</strong>
+                    {{ $type->description }} </li>
 
             @endforeach
         </ul>
+        <div class="type_buttons d-flex gap-4 justify-content-center">
+            <form id="typeForm" action="" method="POST">
+                @csrf
 
-        <button class="btn btn-outline-primary">Aggiungi Tipologia</button>
+                <div class="d-flex flex-column">
+                    <label for="name">Tipologia</label>
+                    <input type="text" name="name" id="name">
+                </div>
+
+                <div class="d-flex flex-column mb-3">
+                    <label for="description">Descrizione</label>
+                    <input type="text" name="description" id="description">
+                </div>
+
+                <div class="my-3 d-flex flex-column">
+                    <label for="type_id" class="text-center">Tipologia</label>
+                    <select name="type_id" id="type_id" onchange="fillTypeData(this.value)">
+                        <option value="">Seleziona una tipologia...</option>
+                        @foreach ($types as $type)
+                            <option value="{{ $type->id }}" data-name="{{ $type->name }}"
+                                data-description="{{ $type->description }}">
+                                {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-outline-primary"
+                    onclick="submitForm('{{ route('types.store') }}', 'POST')">
+                    Aggiungi Tipologia
+                </button>
+                <button type="button" class="btn btn-outline-warning" onclick="handleEdit()">
+                    Modifica Tipologia
+                </button>
+                <button type="button" class="btn btn-outline-danger"
+                    onclick="submitForm('{{ route('types.destroy', $type) }}', 'DELETE')">
+                    Elimina Tipologia
+                </button>
+            </form>
+        </div>
     </div>
 
 @endsection
@@ -94,3 +133,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    function submitForm(route, method) {
+        const form = document.getElementById('typeForm');
+        form.action = route;
+        form.method = 'POST';  // Il form deve sempre usare POST per supportare altri metodi HTTP
+
+        if (method !== 'POST') {
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = method;
+            form.appendChild(methodInput);
+        }
+
+        form.submit();
+    }
+
+    function fillTypeData(typeId) {
+        if (!typeId) {
+            document.getElementById('name').value = '';
+            document.getElementById('description').value = '';
+            return;
+        }
+
+        const option = document.querySelector(`#type_id option[value="${typeId}"]`);
+        document.getElementById('name').value = option.dataset.name;
+        document.getElementById('description').value = option.dataset.description;
+    }
+
+    function handleEdit() {
+        const selectedId = document.getElementById('type_id').value;
+        if (!selectedId) {
+            alert('Seleziona una tipologia da modificare');
+            return;
+        }
+        submitForm(`/types/${selectedId}`, 'PUT');
+    }
+</script>
