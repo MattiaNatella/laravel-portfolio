@@ -12,10 +12,6 @@ return new class extends Migration {
     {
         Schema::table('projects', function (Blueprint $table) {
 
-            //cancello la colonna type
-            $table->dropColumn('type');
-
-            //la rricreo definendola come ForeignKey della tabela types
             $table->foreignId('type_id')->constrained();
         });
     }
@@ -27,14 +23,10 @@ return new class extends Migration {
     {
         Schema::table('projects', function (Blueprint $table) {
 
+            //elimino il vincolo della constraint
+            $table->dropForeign('projects_type_id_foreign');
 
-            //ricreo la colonna type come da migration precedente
-            $table->string('type')->nullable()->after('summary');
-
-            //elimino il vincolo constraint dalla chiave esterna
-            $table->dropForeign('type_id');
-
-            //elimino la colonna type_id
+            //elimino la colonna
             $table->dropColumn('type_id');
         });
     }

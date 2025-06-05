@@ -4,15 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Type;
 use Illuminate\Http\Request;
+
+
+
+
 
 class ProjectController extends Controller
 {
+
     /**
+     * 
      * Display a listing of the resource.
      */
     public function index()
     {
+        $types = Type::all();
+        dd($types);
         $projects = Project::all();
         return view('projects.index', compact('projects'));
     }

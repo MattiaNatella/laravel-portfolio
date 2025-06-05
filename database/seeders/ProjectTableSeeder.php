@@ -24,7 +24,7 @@ class ProjectTableSeeder extends Seeder
             $newProject->customer = $faker->company();
             $newProject->start_date = $faker->date();
             $newProject->summary = $faker->paragraph(3);
-            $newProject->type = $faker->numberBetween(1, 5);
+            $newProject->type_id = rand(1, 5);
 
 
             $newProject->save();
