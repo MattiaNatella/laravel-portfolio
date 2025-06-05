@@ -36,7 +36,7 @@
                     <td>{{ $project->customer }}</td>
                     <td>{{ $project->start_date }}</td>
                     <td>{{ $project->summary }}</td>
-                    <td>{{ $project->type }}</td>
+                    <td>{{ $project->type->name }}</td>
                     <td>
                         <a href="{{ route('projects.show', $project) }}"><button class="btn btn-primary">Visualizza</button></a>
                     </td>
@@ -52,6 +52,18 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="tipologie my-5 p-3 border border-3 border-primary rounded-2">
+        <h3><strong>Tipologie Attuali:</strong></h3>
+        <ul class="d-flex list-unstyled my-3">
+            @foreach ($types as $type)
+                <li class="pe-2 border border-danger rounded p-1 me-1">{{ $type->name }}</li>
+
+            @endforeach
+        </ul>
+
+        <button class="btn btn-outline-primary">Aggiungi Tipologia</button>
+    </div>
 
 @endsection
 

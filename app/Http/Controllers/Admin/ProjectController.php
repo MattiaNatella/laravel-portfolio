@@ -20,10 +20,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        // Eager loading dei types insieme ai projects
+        $projects = Project::with('type')->get();
         $types = Type::all();
-        dd($types);
-        $projects = Project::all();
-        return view('projects.index', compact('projects'));
+        return view('projects.index', compact('projects', 'types'));
     }
 
     /**
@@ -31,7 +31,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+
+        $types = Type::all();
+        return view('projects.create', compact('types'));
     }
 
     /**
@@ -49,6 +51,7 @@ class ProjectController extends Controller
         $newProject->customer = $data['customer'];
         $newProject->start_date = $data['start_date'];
         $newProject->summary = $data['summary'];
+        $newProject->type_id = $data['type_id'];
 
         $newProject->save();
 
@@ -71,7 +74,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('projects.edit', compact('project'));
+        $types = Type::all();
+        return view('projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -85,6 +89,7 @@ class ProjectController extends Controller
         $project->customer = $data['customer'];
         $project->start_date = $data['start_date'];
         $project->summary = $data['summary'];
+        $project->type_id = $data['type_id'];
 
         $project->update();
 

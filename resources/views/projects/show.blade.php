@@ -10,7 +10,7 @@
     @endif
 
     <div class="card">
-        <h5 class="card-header">{{ $project->name }} / {{ $project->start_date }} / Tipo {{ $project->type }}</h5>
+        <h5 class="card-header">{{ $project->name }} / {{ $project->start_date }} / Tipo {{ $project->type->name }}</h5>
         <div class="card-body">
             <h5 class="card-title">{{ $project->customer }}</h5>
             <p class="card-text">{{ $project->summary }}</p>

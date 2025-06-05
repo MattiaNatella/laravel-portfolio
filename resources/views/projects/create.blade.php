@@ -20,6 +20,16 @@
         </div>
 
         <div class="my-3 d-flex flex-column">
+            <label for="type_id" class="text-center">Tipologia</label>
+            <select name="type_id" id="type_id" required>
+                <option value="">Seleziona una tipologia...</option>
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="my-3 d-flex flex-column">
             <label for="start_date" class="text-center">Data inizio</label>
             <input type="date" name="start_date" id="start_date">
         </div>
