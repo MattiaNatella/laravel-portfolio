@@ -31,6 +31,19 @@
             </select>
         </div>
 
+        <!-- TAGS -->
+        <span class="">Tecnologie</span>
+        <div class="d-flex border border-2 border-primary rounded p-2 justify-content-center">
+            @foreach ($technologies as $technology)
+
+                <input type="checkbox" name="technologies[]" value="{{ $technology->id }}" id="technology" {{ $project->technologies->contains($technology->id) ? "checked" : "" }}>
+                <label for="technology" class="me-3">{{$technology->name}}</label>
+
+            @endforeach
+
+        </div>
+
+
         <div class="my-3 d-flex flex-column">
             <label for="start_date" class="text-center">Data inizio</label>
             <input type="date" name="start_date" id="start_date" value="{{ $project->start_date }}">

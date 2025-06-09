@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,9 @@ class ProjectController extends Controller
     {
 
         $types = Type::all();
-        return view('projects.create', compact('types'));
+        $technologies = Technology::all();
+
+        return view('projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -55,6 +58,16 @@ class ProjectController extends Controller
 
         $newProject->save();
 
+        //verifichiamo se sono stati inserite delle technologie
+        if ($request->has('technologies')) {
+
+            //dopo aver salvato il progetto, agganciamo i tags delle technologies
+            $newProject->technologies()->attach($data['technologies']);
+
+        }
+
+
+
         return redirect()->route('projects.show', $newProject)
             ->with('message', 'Progetto inserito con successo!')
             ->with('message_type', 'info');
@@ -75,7 +88,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -92,6 +106,17 @@ class ProjectController extends Controller
         $project->type_id = $data['type_id'];
 
         $project->update();
+
+        //verifichiamo se stiamo ricevendo le technologies
+        if ($request->has('technologies')) {
+            // sincronizziamo i tags nella tabella pivot
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            //se non riceviamo dei tags eliminiamo i tags collegati al progetto attuale dalla tabella ponte
+            $project->technologies()->detach();
+        }
+
+
 
         return redirect()->route('projects.show', compact('project'))
             ->with('message', 'Progetto modificato con successo!')
